@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.mangopay.android.sdk.Callback;
 import com.mangopay.android.sdk.MangoPay;
 import com.mangopay.android.sdk.model.CardRegistration;
+import com.mangopay.android.sdk.model.MangoError;
 import com.mangopay.android.sdk.util.TextUtil;
 
 import org.json.JSONException;
@@ -94,8 +95,8 @@ public class MainActivity extends Activity {
                         Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
                       }
 
-                      @Override public void failure(String message) {
-                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                      @Override public void failure(MangoError error) {
+                        Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                       }
                     }).start();
           } catch (JSONException e) {

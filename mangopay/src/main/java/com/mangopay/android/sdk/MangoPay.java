@@ -3,6 +3,8 @@ package com.mangopay.android.sdk;
 
 import android.content.Context;
 
+import com.mangopay.android.sdk.model.ErrorCode;
+import com.mangopay.android.sdk.model.MangoError;
 import com.mangopay.android.sdk.util.TextUtil;
 
 import java.util.Calendar;
@@ -12,7 +14,8 @@ public class MangoPay {
 
   private static final String CARD_NUMBER_REGEX = "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]" +
           "{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$";
-  private static final String CARD_EXP_REGEX = "^(0[1-9]|1[0-2])1[0-9]$";
+  private static final String CARD_EXP_REGEX = "^(0[1-9]|1[0-2])[1-9][0-9]$";
+  private static final String CARD_CVV_REGEX = "^[0-9]{3,4}$";
 
   private static volatile MangoPay singleton = null;
   private Context context;
@@ -223,7 +226,8 @@ public class MangoPay {
             && isValueValid(cardPreregistrationId, "cardPreregistrationId") && isValueValid(cvx, "cvx")
             && isValueValid(clientId, "clientId") && isValueValid(preregistrationData, "preregistrationData")
             && isValueValid(accessKey, "accessKey") && isValueValid(cardNumber, "cardNumber")
-            && isValueValid(expirationDate, "expirationDate") && isCardNumberValid() && isCardExpirationValid()) {
+            && isValueValid(expirationDate, "expirationDate") && isCardNumberValid()
+            && isCardExpirationValid() && isCardCvxValid()) {
       return new MangoPaySDK(callback, baseURL, clientId,
               cardPreregistrationId, cardRegistrationURL,
               preregistrationData, accessKey, cardNumber,
@@ -238,7 +242,8 @@ public class MangoPay {
       return true;
     } else {
       if (callback != null) {
-        callback.failure("Invalid card expiration date.");
+        callback.failure(new MangoError(ErrorCode.EXPIRY_DATE_FORMAT_ERROR.getValue(),
+                "Invalid card expiration date.", ErrorCode.VALIDATION.getValue()));
       }
       throw new IllegalStateException("Invalid card expiration date.");
     }
@@ -249,9 +254,22 @@ public class MangoPay {
       return true;
     } else {
       if (callback != null) {
-        callback.failure("Invalid card number.");
+        callback.failure(new MangoError(ErrorCode.CARD_NUMBER_FORMAT_ERROR.getValue(),
+                "Invalid card number.", ErrorCode.VALIDATION.getValue()));
       }
       throw new IllegalStateException("Invalid card number.");
+    }
+  }
+
+  private boolean isCardCvxValid() {
+    if (cvx != null && cvx.matches(CARD_CVV_REGEX)) {
+      return true;
+    } else {
+      if (callback != null) {
+        callback.failure(new MangoError(ErrorCode.CVV_FORMAT_ERROR.getValue(),
+                "Invalid card cvv.", ErrorCode.VALIDATION.getValue()));
+      }
+      throw new IllegalStateException("Invalid card cvv.");
     }
   }
 
@@ -260,7 +278,8 @@ public class MangoPay {
       return true;
     } else {
       if (callback != null) {
-        callback.failure("Missing field: " + param);
+        callback.failure(new MangoError(ErrorCode.MISSING_FIELD_ERROR.getValue(),
+                "Missing field: " + param, ErrorCode.VALIDATION.getValue()));
       }
       throw new IllegalStateException("Missing field: " + param);
     }

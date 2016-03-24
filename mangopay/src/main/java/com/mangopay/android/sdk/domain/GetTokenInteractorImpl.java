@@ -4,6 +4,7 @@ import com.mangopay.android.sdk.domain.api.GetTokenInteractor;
 import com.mangopay.android.sdk.executor.Executor;
 import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
+import com.mangopay.android.sdk.model.ErrorCode;
 import com.mangopay.android.sdk.model.MangoError;
 import com.mangopay.android.sdk.util.TextUtil;
 
@@ -107,13 +108,17 @@ public class GetTokenInteractorImpl implements Interactor, GetTokenInteractor {
         if (json.has("Date") && !json.isNull("Date")) {
           error.setDate((Long) json.get("Date"));
         }
-        notifyError(error.getMessage() != null ? error.getMessage() : connection.getResponseMessage());
+        if (error.getMessage() == null) {
+          error.setId(ErrorCode.SERVER_ERROR.getValue());
+          error.setMessage(connection.getResponseMessage());
+        }
+        notifyError(error);
       }
       connection.disconnect();
 
     } catch (IOException | JSONException e) {
       e.printStackTrace();
-      notifyError(e.getMessage());
+      notifyError(new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage()));
     }
   }
 
@@ -125,7 +130,7 @@ public class GetTokenInteractorImpl implements Interactor, GetTokenInteractor {
     });
   }
 
-  private void notifyError(final String message) {
+  private void notifyError(final MangoError message) {
     mMainThread.post(new Runnable() {
       @Override public void run() {
         mCallback.onGetTokenError(message);

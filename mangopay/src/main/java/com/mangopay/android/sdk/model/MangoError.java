@@ -1,5 +1,7 @@
 package com.mangopay.android.sdk.model;
 
+import java.util.Date;
+
 /**
  * Possible error returned from the mangoPay servers
  */
@@ -8,6 +10,20 @@ public class MangoError {
   private String message;
   private String type;
   private long date;
+
+  public MangoError() {
+  }
+
+  public MangoError(String id, String message) {
+    this(id, message, null);
+  }
+
+  public MangoError(String id, String message, String type) {
+    this.id = id;
+    this.message = message;
+    this.type = type;
+    this.date = new Date().getTime();
+  }
 
   public String getId() {
     return id;

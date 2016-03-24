@@ -10,6 +10,7 @@ import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.executor.MainThreadImpl;
 import com.mangopay.android.sdk.executor.ThreadExecutor;
 import com.mangopay.android.sdk.model.CardRegistration;
+import com.mangopay.android.sdk.model.MangoError;
 
 public class MangoPaySDK implements GetTokenInteractor.Callback, CardRegistrationInteractor.Callback {
   private Callback mCallback;
@@ -40,9 +41,9 @@ public class MangoPaySDK implements GetTokenInteractor.Callback, CardRegistratio
     cardRegistrationInteractor.execute(this, mBaseURL, mClientId, mCardPreregistrationId, response);
   }
 
-  @Override public void onGetTokenError(String message) {
+  @Override public void onGetTokenError(MangoError error) {
     if (mCallback != null)
-      mCallback.failure(message);
+      mCallback.failure(error);
   }
 
   @Override public void onCardRegistrationSuccess(CardRegistration response) {
@@ -50,8 +51,8 @@ public class MangoPaySDK implements GetTokenInteractor.Callback, CardRegistratio
       mCallback.success(response);
   }
 
-  @Override public void onCardRegistrationError(String message) {
+  @Override public void onCardRegistrationError(MangoError error) {
     if (mCallback != null)
-      mCallback.failure(message);
+      mCallback.failure(error);
   }
 }
