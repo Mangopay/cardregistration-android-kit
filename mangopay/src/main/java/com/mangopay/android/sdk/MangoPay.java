@@ -4,7 +4,9 @@ package com.mangopay.android.sdk;
 import android.content.Context;
 
 import com.mangopay.android.sdk.model.ErrorCode;
+import com.mangopay.android.sdk.model.LogLevel;
 import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.util.PrintLog;
 import com.mangopay.android.sdk.util.TextUtil;
 
 import java.util.Calendar;
@@ -219,6 +221,17 @@ public class MangoPay {
   }
 
   /**
+   * Set the SDK Log Level e.g 'NONE' or 'FULL' by default is set to 'NONE'
+   *
+   * @param logLevel needed for logger
+   * @return This mango builder.
+   */
+  public MangoPay logLevel(LogLevel logLevel) {
+    PrintLog.setLogLevel(logLevel);
+    return this;
+  }
+
+  /**
    * Starts the card registration process
    */
   public MangoPaySDK start() {
@@ -228,6 +241,7 @@ public class MangoPay {
             && isValueValid(accessKey, "accessKey") && isValueValid(cardNumber, "cardNumber")
             && isValueValid(expirationDate, "expirationDate") && isCardNumberValid()
             && isCardExpirationValid() && isCardCvxValid()) {
+      PrintLog.debug("MangoPay SDK started");
       return new MangoPaySDK(callback, baseURL, clientId,
               cardPreregistrationId, cardRegistrationURL,
               preregistrationData, accessKey, cardNumber,
@@ -241,11 +255,15 @@ public class MangoPay {
     if (expirationDate != null && expirationDate.matches(CARD_EXP_REGEX)) {
       return true;
     } else {
+      MangoError error = new MangoError(ErrorCode.EXPIRY_DATE_FORMAT_ERROR.getValue(),
+              "Invalid card expiration date.", ErrorCode.VALIDATION.getValue());
+      PrintLog.error(error.toString());
       if (callback != null) {
-        callback.failure(new MangoError(ErrorCode.EXPIRY_DATE_FORMAT_ERROR.getValue(),
-                "Invalid card expiration date.", ErrorCode.VALIDATION.getValue()));
+        callback.failure(error);
+      } else {
+        throw new IllegalStateException("Invalid card expiration date.");
       }
-      throw new IllegalStateException("Invalid card expiration date.");
+      return false;
     }
   }
 
@@ -253,11 +271,15 @@ public class MangoPay {
     if (cardNumber != null && cardNumber.matches(CARD_NUMBER_REGEX)) {
       return true;
     } else {
+      MangoError error = new MangoError(ErrorCode.CARD_NUMBER_FORMAT_ERROR.getValue(),
+              "Invalid card number.", ErrorCode.VALIDATION.getValue());
+      PrintLog.error(error.toString());
       if (callback != null) {
-        callback.failure(new MangoError(ErrorCode.CARD_NUMBER_FORMAT_ERROR.getValue(),
-                "Invalid card number.", ErrorCode.VALIDATION.getValue()));
+        callback.failure(error);
+      } else {
+        throw new IllegalStateException("Invalid card number.");
       }
-      throw new IllegalStateException("Invalid card number.");
+      return false;
     }
   }
 
@@ -265,11 +287,15 @@ public class MangoPay {
     if (cvx != null && cvx.matches(CARD_CVV_REGEX)) {
       return true;
     } else {
+      MangoError error = new MangoError(ErrorCode.CVV_FORMAT_ERROR.getValue(),
+              "Invalid card cvv.", ErrorCode.VALIDATION.getValue());
+      PrintLog.error(error.toString());
       if (callback != null) {
-        callback.failure(new MangoError(ErrorCode.CVV_FORMAT_ERROR.getValue(),
-                "Invalid card cvv.", ErrorCode.VALIDATION.getValue()));
+        callback.failure(error);
+      } else {
+        throw new IllegalStateException("Invalid card cvv.");
       }
-      throw new IllegalStateException("Invalid card cvv.");
+      return false;
     }
   }
 
@@ -277,11 +303,15 @@ public class MangoPay {
     if (!TextUtil.isBlank(value)) {
       return true;
     } else {
+      MangoError error = new MangoError(ErrorCode.MISSING_FIELD_ERROR.getValue(),
+              "Missing field: " + param, ErrorCode.VALIDATION.getValue());
+      PrintLog.error(error.toString());
       if (callback != null) {
-        callback.failure(new MangoError(ErrorCode.MISSING_FIELD_ERROR.getValue(),
-                "Missing field: " + param, ErrorCode.VALIDATION.getValue()));
+        callback.failure(error);
+      } else {
+        throw new IllegalStateException("Missing field: " + param);
       }
-      throw new IllegalStateException("Missing field: " + param);
+      return false;
     }
   }
 

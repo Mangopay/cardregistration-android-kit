@@ -8,7 +8,10 @@ import java.net.URLEncoder;
 import java.util.AbstractMap;
 import java.util.List;
 
-public class TextUtil {
+public final class TextUtil {
+
+  private TextUtil() {
+  }
 
   public static boolean isBlank(String value) {
     return value == null || value.trim().length() == 0;

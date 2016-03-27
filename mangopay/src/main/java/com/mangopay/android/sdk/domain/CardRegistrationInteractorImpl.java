@@ -7,6 +7,7 @@ import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.ErrorCode;
 import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.util.PrintLog;
 import com.mangopay.android.sdk.util.TextUtil;
 
 import org.json.JSONException;
@@ -70,6 +71,8 @@ public class CardRegistrationInteractorImpl implements Interactor, CardRegistrat
       params.add(new AbstractMap.SimpleEntry<>("Id", mId));
       params.add(new AbstractMap.SimpleEntry<>("RegistrationData", mRegData));
 
+      PrintLog.debug("Started card registration request\n" + connection.getRequestMethod() + ": " + url);
+
       OutputStream os = connection.getOutputStream();
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
       writer.write(TextUtil.getQuery(params));
@@ -130,8 +133,9 @@ public class CardRegistrationInteractorImpl implements Interactor, CardRegistrat
       connection.disconnect();
 
     } catch (IOException | JSONException e) {
-      e.printStackTrace();
-      notifyError(new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage()));
+      MangoError error = new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage());
+      PrintLog.error(error.toString());
+      notifyError(error);
     }
   }
 
