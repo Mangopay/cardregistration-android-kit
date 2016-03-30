@@ -1,6 +1,6 @@
-# mangoPay-android #
+# mangopay-android #
 
-MangoPay-android makes it easy to create a card registration object based on your credit card info.
+mangopay-android makes it easy to create a card registration object based on your credit card info.
 
 ##Instalation##
 ### Android Studio (or Gradle) ###
@@ -19,8 +19,8 @@ compile 'TODO'
 
 1. Clone the repository.
 2. Be sure you've installed the Android SDK with API Level 10+. This is the only requirement for development. Our bindings require the API Level 10 as a minimum at runtime which would work on any modern version of Android.
-1. Import the *mangopay* folder into Eclipse (use "Existing Projects into Workspace", not "Existing Android Code").
-1. In your project settings, add the *mangopay* project under the "Libraries" section of the "Android" category.
+3. Import the *mangopay* folder into Eclipse (use "Existing Projects into Workspace", not "Existing Android Code").
+4. In your project settings, add the *mangopay* project under the "Libraries" section of the "Android" category.
 
 ## Usage ##
 
