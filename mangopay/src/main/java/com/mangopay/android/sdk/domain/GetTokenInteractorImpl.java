@@ -1,37 +1,21 @@
 package com.mangopay.android.sdk.domain;
 
 import com.mangopay.android.sdk.domain.api.GetTokenInteractor;
+import com.mangopay.android.sdk.domain.service.CardService;
+import com.mangopay.android.sdk.domain.service.CardServiceImpl;
+import com.mangopay.android.sdk.domain.service.ServiceCallback;
 import com.mangopay.android.sdk.executor.Executor;
 import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
-import com.mangopay.android.sdk.model.ErrorCode;
+import com.mangopay.android.sdk.model.CreateTokenRequest;
 import com.mangopay.android.sdk.model.MangoError;
-import com.mangopay.android.sdk.util.PrintLog;
-import com.mangopay.android.sdk.util.TextUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Get Token request implementation
  */
-public class GetTokenInteractorImpl implements Interactor, GetTokenInteractor {
+public class GetTokenInteractorImpl extends BaseInteractorImpl<CardService>
+        implements Interactor, GetTokenInteractor {
 
-  private final Executor mExecutor;
-  private final MainThread mMainThread;
   private String mRegistrationURL;
   private String mPreData;
   private String mAccessKey;
@@ -42,13 +26,13 @@ public class GetTokenInteractorImpl implements Interactor, GetTokenInteractor {
   private Callback mCallback;
 
   public GetTokenInteractorImpl(Executor executor, MainThread mainThread) {
-    this.mExecutor = executor;
-    this.mMainThread = mainThread;
+    super(executor, mainThread, new CardServiceImpl());
   }
 
   @Override public void execute(Callback callback, String cardRegistrationURL,
                                 String preregistrationData, String accessKeyRef,
                                 String cardNumber, String cardExpirationDate, String cardCvx) {
+    validateCallbackSpecified(callback);
     this.mCallback = callback;
     this.mRegistrationURL = cardRegistrationURL;
     this.mPreData = preregistrationData;
@@ -60,70 +44,20 @@ public class GetTokenInteractorImpl implements Interactor, GetTokenInteractor {
   }
 
   @Override public void run() {
-    try {
-      URL obj = new URL(mRegistrationURL);
-      HttpsURLConnection connection = (HttpsURLConnection) obj.openConnection();
+    CreateTokenRequest requestBody = new CreateTokenRequest(mPreData, mAccessKey, mCardNumber,
+            mExpirationDate, mCardCvx);
 
-      connection.setRequestMethod("POST");
-      connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-      connection.setRequestProperty("Accept", "text/plain");
-      connection.setDoInput(true);
-      connection.setDoOutput(true);
-
-      List<AbstractMap.SimpleEntry<String, String>> params = new ArrayList<>();
-      params.add(new AbstractMap.SimpleEntry<>("data", mPreData));
-      params.add(new AbstractMap.SimpleEntry<>("accessKeyRef", mAccessKey));
-      params.add(new AbstractMap.SimpleEntry<>("cardNumber", mCardNumber));
-      params.add(new AbstractMap.SimpleEntry<>("cardExpirationDate", mExpirationDate));
-      params.add(new AbstractMap.SimpleEntry<>("cardCvx", mCardCvx));
-
-      PrintLog.debug("Started get token request\n" + connection.getRequestMethod() + ": " + mRegistrationURL);
-
-      OutputStream os = connection.getOutputStream();
-      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-      writer.write(TextUtil.getQuery(params));
-      writer.flush();
-      writer.close();
-      os.close();
-
-      connection.connect();
-
-      int responseCode = connection.getResponseCode();
-      String response = "";
-      if (responseCode == HttpsURLConnection.HTTP_OK) {
-        String line;
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        while ((line = br.readLine()) != null) {
-          response += line;
-        }
+    ServiceCallback<String> callback = new ServiceCallback<String>() {
+      @Override public void success(String response) {
         notifySuccess(response);
-      } else {
-        String line;
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-        while ((line = br.readLine()) != null) {
-          response += line;
-        }
-        JSONObject json = new JSONObject(response);
-        MangoError error = new MangoError();
-        error.setMessage(TextUtil.getValue(json, "Message"));
-        error.setMessage(TextUtil.getValue(json, "Type"));
-        error.setMessage(TextUtil.getValue(json, "Id"));
-        if (json.has("Date") && !json.isNull("Date")) {
-          error.setDate((Long) json.get("Date"));
-        }
-        if (error.getMessage() == null) {
-          error.setId(ErrorCode.SERVER_ERROR.getValue());
-          error.setMessage(connection.getResponseMessage());
-        }
+      }
+
+      @Override public void failure(MangoError error) {
         notifyError(error);
       }
-      connection.disconnect();
+    };
 
-    } catch (IOException | JSONException e) {
-      MangoError error = new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage());
-      PrintLog.error(error.toString());
-      notifyError(error);
-    }
+    mService.post(mRegistrationURL, requestBody.getFields(callback), "text/plain", callback);
   }
 
   private void notifySuccess(final String response) {

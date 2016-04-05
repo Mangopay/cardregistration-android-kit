@@ -1,8 +1,5 @@
 package com.mangopay.android.sdk.util;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.AbstractMap;
@@ -15,13 +12,6 @@ public final class TextUtil {
 
   public static boolean isBlank(String value) {
     return value == null || value.trim().length() == 0;
-  }
-
-  public static String getValue(JSONObject json, String key) throws JSONException {
-    if (json.has(key) && !json.isNull(key)) {
-      return json.getString(key);
-    }
-    return null;
   }
 
   public static String getQuery(List<AbstractMap.SimpleEntry<String, String>> params) throws UnsupportedEncodingException {
