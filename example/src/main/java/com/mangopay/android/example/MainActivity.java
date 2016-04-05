@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.mangopay.android.sdk.Callback;
 import com.mangopay.android.sdk.MangoPay;
 import com.mangopay.android.sdk.model.CardRegistration;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.MangoCard;
+import com.mangopay.android.sdk.model.MangoSettings;
+import com.mangopay.android.sdk.model.exception.MangoError;
 import com.mangopay.android.sdk.util.JsonUtil;
 
 import org.json.JSONException;
@@ -84,7 +86,26 @@ public class MainActivity extends Activity {
             String clientId = JsonUtil.getValue(object, "clientId");
             String preregistrationData = JsonUtil.getValue(object, "preregistrationData");
 
-            MangoPay.with(MainActivity.this).baseURL(baseURL)
+            MangoSettings mSettings = new MangoSettings(baseURL, clientId, cardPreregistrationId,
+                    cardRegistrationURL, preregistrationData, accessKey);
+            MangoCard mCard = new MangoCard("3569990000000157", "0920", "123");
+
+            MangoPay mangopay = new MangoPay(MainActivity.this, mSettings);
+
+            mangopay.registerCard(mCard, new Callback() {
+              @Override public void success(CardRegistration cardRegistration) {
+                Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
+              }
+
+              @Override public void failure(MangoError error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+              }
+            });
+
+            /*
+
+            MangoPayBuilder builder = new MangoPayBuilder(MainActivity.this);
+            builder.baseURL(baseURL)
                     .clientId(clientId).accessKey(accessKey)
                     .cardRegistrationURL(cardRegistrationURL)
                     .preregistrationData(preregistrationData)
@@ -92,6 +113,7 @@ public class MainActivity extends Activity {
                     .cardNumber("3569990000000157")
                     .cardExpirationDate("0920")
                     .cardCvx("123")
+                    .logLevel(LogLevel.FULL)
                     .callback(new Callback() {
                       @Override public void success(CardRegistration cardRegistration) {
                         Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
@@ -101,6 +123,8 @@ public class MainActivity extends Activity {
                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                       }
                     }).start();
+              */
+
           } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
           }

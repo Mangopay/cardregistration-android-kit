@@ -1,7 +1,7 @@
 package com.mangopay.android.sdk.domain.api;
 
 import com.mangopay.android.sdk.model.CardRegistration;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoError;
 
 public interface CardRegistrationInteractor {
   interface Callback {

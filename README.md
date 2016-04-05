@@ -24,21 +24,59 @@ compile 'TODO'
 
 ## Usage ##
 
+* *mangopay sdk* creation:
+
+```
+# !java
+
+             // holds the card registration data
+             MangoSettings mSettings = new MangoSettings(baseURL, clientId, cardPreregistrationId,cardRegistrationURL, preregistrationData, accessKey);
+                          
+             // using the default constructor where you should pass the android context and  the settings object
+             MangoPay mangopay = new MangoPay(this, mSettings);
+             
+             // or using the mangopay builder
+             MangoPay mangopay = new MangoPayBuilder(this).build();
+
+```
+
+* sdk usage:
+
+```
+# !java
+             
+             // holds the card information
+             MangoCard mCard = new MangoCard("3569990000000157", "0920", "123");
+             
+             // register card method with callback
+             mangopay.registerCard(mCard, new Callback() {
+                  @Override public void success(CardRegistration cardRegistration) {
+                    Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
+                  }
+    
+                  @Override public void failure(MangoError error) {
+                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                  }
+                });
+
+```
+
+* Fluent API using the Builder pattern.
 
 ```
 #!java
  
-MangoPay.with(MainActivity.this) // android context
-                    .baseURL(baseURL) // card pre-registration baseUrl
+             MangoPayBuilder builder = new MangoPayBuilder(this); // android context
+             builder.baseURL(baseURL)   // card pre-registration baseUrl
                     .clientId(clientId) // card pre-registration clientId
-                    .accessKey(accessKey) // card pre-registration accessKey
-                    .cardRegistrationURL(cardRegistrationURL) // card pre-registration url
-                    .preregistrationData(preregistrationData) // card pre-registration data
-                    .cardPreregistrationId(cardPreregistrationId) // card pre-registration id
+                    .accessKey(accessKey)   // card pre-registration accessKey
+                    .cardRegistrationURL(cardRegistrationURL)   // card pre-registration url
+                    .preregistrationData(preregistrationData)   // card pre-registration data
+                    .cardPreregistrationId(cardPreregistrationId)   // card pre-registration id
                     .cardNumber("3569990000000157") // credit card number accepted inputs: '123412341234' or '1234-1234-1234-1234' or '1234 1234 1234 1234'
                     .cardExpirationDate("0920") // credit card expiration date e.g '0920' or '11/20' or '02-19'
                     .cardCvx("123") // credit card expiration cvx
-                    .callback(new Callback() { // callback that returns the sdk success or failure objects
+                    .callback(new Callback() {  // callback that returns the sdk success or failure objects
                       @Override public void success(CardRegistration cardRegistration) {
                         Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
                       }
@@ -47,18 +85,22 @@ MangoPay.with(MainActivity.this) // android context
                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                       }
                     }).start();
+                    
 ```
 
-* other methods:
+* other builder methods:
 
 ```
-#!java
-                  .cardExpirationDate(new Date()) // you can pass the card expiration date as a java.util.Date object
+# !java
+
+                  // you can pass the card expiration date as a java.util.Date object
+                  .cardExpirationDate(new Date())
 
                   // you can pass the card expiration month together with the card expiration year as integers
                   .cardExpirationMonth(9) 
                   .cardExpirationYear(2019)
 
-                  .logLevel(LogLevel.NONE|LogLevel.FULL) // you can set the log level of the SDK
+                  // you can set the log level of the SDK
+                  .logLevel(LogLevel.NONE|LogLevel.FULL)
 
 ```
