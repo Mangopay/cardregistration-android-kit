@@ -1,6 +1,6 @@
 package com.mangopay.android.sdk.domain.service;
 
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoError;
 
 public interface ServiceCallback<T> {
 

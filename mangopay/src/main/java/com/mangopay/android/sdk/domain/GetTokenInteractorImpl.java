@@ -8,7 +8,7 @@ import com.mangopay.android.sdk.executor.Executor;
 import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.model.CreateTokenRequest;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoError;
 
 /**
  * Get Token request implementation

@@ -2,8 +2,7 @@ package com.mangopay.android.sdk.util;
 
 import com.mangopay.android.sdk.domain.service.ServiceCallback;
 import com.mangopay.android.sdk.model.CardRegistration;
-import com.mangopay.android.sdk.model.ErrorCode;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,16 +23,13 @@ public final class JsonUtil {
     try {
       JSONObject json = new JSONObject(jsonResponse);
 
-      MangoError error = new MangoError();
-      error.setMessage(getValue(json, "Message"));
-      error.setMessage(getValue(json, "Type"));
-      error.setMessage(getValue(json, "Id"));
+      MangoError error = new MangoError(getValue(json, "Id"), getValue(json, "Message"), getValue(json, "Type"));
       if (json.has("Date") && !json.isNull("Date")) {
-        error.setDate((Long) json.get("Date"));
+        error.setTimestamp((Long) json.get("Date"));
       }
       return error;
     } catch (JSONException e) {
-      callback.failure(new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage()));
+      callback.failure(new MangoError(e));
       PrintLog.error(e.getMessage());
     }
     return null;
@@ -62,7 +58,7 @@ public final class JsonUtil {
       }
       return cardRegistration;
     } catch (JSONException e) {
-      callback.failure(new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage()));
+      callback.failure(new MangoError(e));
       PrintLog.error(e.getMessage());
     }
     return null;

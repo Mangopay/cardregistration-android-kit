@@ -9,7 +9,7 @@ import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.CardRegistrationRequest;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoError;
 import com.mangopay.android.sdk.util.JsonUtil;
 
 /**
