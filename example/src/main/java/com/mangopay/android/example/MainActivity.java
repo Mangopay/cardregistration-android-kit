@@ -10,7 +10,7 @@ import com.mangopay.android.sdk.Callback;
 import com.mangopay.android.sdk.MangoPay;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.MangoError;
-import com.mangopay.android.sdk.util.TextUtil;
+import com.mangopay.android.sdk.util.JsonUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +24,8 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends Activity {
+
+  private static final String TAG = MainActivity.class.getSimpleName();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -65,7 +67,7 @@ public class MainActivity extends Activity {
             return "";
           }
         } catch (IOException e) {
-          e.printStackTrace();
+          Log.e(TAG, e.getMessage());
         }
         return null;
       }
@@ -75,12 +77,12 @@ public class MainActivity extends Activity {
         if (response != null && response.length() > 0) {
           try {
             JSONObject object = new JSONObject(response);
-            String accessKey = TextUtil.getValue(object, "accessKey");
-            String baseURL = TextUtil.getValue(object, "baseURL");
-            String cardPreregistrationId = TextUtil.getValue(object, "cardPreregistrationId");
-            String cardRegistrationURL = TextUtil.getValue(object, "cardRegistrationURL");
-            String clientId = TextUtil.getValue(object, "clientId");
-            String preregistrationData = TextUtil.getValue(object, "preregistrationData");
+            String accessKey = JsonUtil.getValue(object, "accessKey");
+            String baseURL = JsonUtil.getValue(object, "baseURL");
+            String cardPreregistrationId = JsonUtil.getValue(object, "cardPreregistrationId");
+            String cardRegistrationURL = JsonUtil.getValue(object, "cardRegistrationURL");
+            String clientId = JsonUtil.getValue(object, "clientId");
+            String preregistrationData = JsonUtil.getValue(object, "preregistrationData");
 
             MangoPay.with(MainActivity.this).baseURL(baseURL)
                     .clientId(clientId).accessKey(accessKey)
@@ -100,7 +102,7 @@ public class MainActivity extends Activity {
                       }
                     }).start();
           } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
           }
         }
       }
