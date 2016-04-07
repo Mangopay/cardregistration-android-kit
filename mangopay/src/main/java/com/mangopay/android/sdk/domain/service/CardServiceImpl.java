@@ -1,7 +1,7 @@
 package com.mangopay.android.sdk.domain.service;
 
 import com.mangopay.android.sdk.model.ErrorCode;
-import com.mangopay.android.sdk.model.exception.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.JsonUtil;
 import com.mangopay.android.sdk.util.PrintLog;
 import com.mangopay.android.sdk.util.TextUtil;
@@ -64,10 +64,10 @@ public class CardServiceImpl implements CardService {
           response += line;
         }
 
-        MangoError error = JsonUtil.getMangoError(callback, response);
+        MangoException error = JsonUtil.getMangoError(callback, response);
         if (error != null) {
           if (error.getMessage() == null) {
-            error = new MangoError(ErrorCode.SERVER_ERROR.getValue(),
+            error = new MangoException(ErrorCode.SERVER_ERROR.getValue(),
                     connection.getResponseMessage());
           }
           callback.failure(error);
@@ -75,7 +75,7 @@ public class CardServiceImpl implements CardService {
       }
       connection.disconnect();
     } catch (IOException e) {
-      callback.failure(new MangoError(e));
+      callback.failure(new MangoException(e));
       PrintLog.error(e.getMessage());
     }
   }

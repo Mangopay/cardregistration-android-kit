@@ -1,6 +1,6 @@
 package com.mangopay.android.sdk.model;
 
-import com.mangopay.android.sdk.model.exception.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.PrintLog;
 import com.mangopay.android.sdk.util.TextUtil;
 
@@ -53,20 +53,20 @@ public class MangoSettings {
     return accessKey;
   }
 
-  public void validate() throws MangoError {
+  public void validate() throws MangoException {
     try {
       Field[] fields = this.getClass().getDeclaredFields();
       for (Field field : fields) {
         String value = (String) field.get(this);
         if (TextUtil.isBlank(value)) {
-          MangoError error = new MangoError(ErrorCode.MISSING_FIELD_ERROR.getValue(),
+          MangoException error = new MangoException(ErrorCode.MISSING_FIELD_ERROR.getValue(),
                   "Missing field: " + field.getName(), ErrorCode.VALIDATION.getValue());
           PrintLog.error(error.toString());
           throw error;
         }
       }
     } catch (IllegalAccessException e) {
-      throw new MangoError(e);
+      throw new MangoException(e);
     }
   }
 }

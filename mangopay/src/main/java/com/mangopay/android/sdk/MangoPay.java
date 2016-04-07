@@ -13,7 +13,7 @@ import com.mangopay.android.sdk.executor.ThreadExecutor;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.MangoCard;
 import com.mangopay.android.sdk.model.MangoSettings;
-import com.mangopay.android.sdk.model.exception.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.PrintLog;
 
 public class MangoPay {
@@ -25,16 +25,17 @@ public class MangoPay {
   private MainThread mMainThread;
 
   protected MangoPay(Context context, String baseURL, String clientId, String cardPreregistrationId,
-                     String cardRegistrationURL, String preregistrationData,
-                     String accessKey, String cvx, String cardNumber, String expirationDate) {
+                     String cardRegistrationURL, String preregistrationData, String accessKey,
+                     String cvx, String cardNumber, String expirationDate, Callback callback) {
     this(context, new MangoSettings(baseURL, clientId, cardPreregistrationId, cardRegistrationURL,
-            preregistrationData, accessKey), new MangoCard(cardNumber, expirationDate, cvx));
+            preregistrationData, accessKey), new MangoCard(cardNumber, expirationDate, cvx), callback);
   }
 
-  protected MangoPay(Context context, MangoSettings mSettings, MangoCard mCard) {
+  protected MangoPay(Context context, MangoSettings mSettings, MangoCard mCard, Callback callback) {
     this.mMainThread = new MainThreadImpl(context.getApplicationContext());
     this.mSettings = mSettings;
     this.mCard = mCard;
+    this.mCallback = callback;
   }
 
   public MangoPay(Context context, MangoSettings mSettings) {
@@ -45,10 +46,14 @@ public class MangoPay {
   /**
    * Starts the card registration process
    */
+  public void registerCard() {
+    registerCard(null, null);
+  }
+
   public void registerCard(MangoCard card, Callback callback) {
     PrintLog.debug("MangoPay SDK register card started");
-    this.mCallback = callback;
-
+    if (mCallback == null)
+      this.mCallback = callback;
     if (mCard == null)
       mCard = card;
 
@@ -57,7 +62,7 @@ public class MangoPay {
         getTokenSuccess(response);
       }
 
-      @Override public void onGetTokenError(MangoError error) {
+      @Override public void onGetTokenError(MangoException error) {
         getTokenError(error);
       }
     };
@@ -70,12 +75,12 @@ public class MangoPay {
       getTokenInteractor.execute(serviceCallback, mSettings.getCardRegistrationURL(),
               mSettings.getPreregistrationData(), mSettings.getAccessKey(),
               mCard.getCardNumber(), mCard.getExpirationDate(), mCard.getCvx());
-    } catch (MangoError error) {
+    } catch (MangoException error) {
       if (mCallback != null)
         mCallback.failure(error);
     } catch (NullPointerException e) {
       if (mCallback != null)
-        mCallback.failure(new MangoError(e));
+        mCallback.failure(new MangoException(e));
     }
   }
 
@@ -85,7 +90,7 @@ public class MangoPay {
         cardRegistrationSuccess(response);
       }
 
-      @Override public void onCardRegistrationError(MangoError error) {
+      @Override public void onCardRegistrationError(MangoException error) {
         cardRegistrationError(error);
       }
     };
@@ -98,13 +103,13 @@ public class MangoPay {
 
       cardRegistrationInteractor.execute(serviceCallback, mSettings.getBaseURL(),
               mSettings.getClientId(), mSettings.getCardPreregistrationId(), response);
-    } catch (MangoError error) {
+    } catch (MangoException error) {
       if (mCallback != null)
         mCallback.failure(error);
     }
   }
 
-  private void getTokenError(MangoError error) {
+  private void getTokenError(MangoException error) {
     PrintLog.error(error.toString());
     if (mCallback != null)
       mCallback.failure(error);
@@ -116,7 +121,7 @@ public class MangoPay {
       mCallback.success(response);
   }
 
-  private void cardRegistrationError(MangoError error) {
+  private void cardRegistrationError(MangoException error) {
     PrintLog.error(error.toString());
     if (mCallback != null)
       mCallback.failure(error);

@@ -1,6 +1,6 @@
 package com.mangopay.android.sdk.model;
 
-import com.mangopay.android.sdk.model.exception.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.PrintLog;
 
 /**
@@ -35,7 +35,7 @@ public class MangoCard {
     return cvx;
   }
 
-  public void validate() throws MangoError {
+  public void validate() throws MangoException {
     validateCardExpiration();
     validateCardNumber();
     validateCardCvx();
@@ -43,7 +43,7 @@ public class MangoCard {
 
   private void validateCardExpiration() {
     if (!isFieldValid(expirationDate, CARD_EXP_REGEX)) {
-      MangoError error = new MangoError(ErrorCode.EXPIRY_DATE_FORMAT_ERROR.getValue(),
+      MangoException error = new MangoException(ErrorCode.EXPIRY_DATE_FORMAT_ERROR.getValue(),
               "Invalid card expiration date.", ErrorCode.VALIDATION.getValue());
       PrintLog.error(error.toString());
       throw error;
@@ -52,7 +52,7 @@ public class MangoCard {
 
   private void validateCardNumber() {
     if (!isFieldValid(cardNumber, CARD_NUMBER_REGEX)) {
-      MangoError error = new MangoError(ErrorCode.CARD_NUMBER_FORMAT_ERROR.getValue(),
+      MangoException error = new MangoException(ErrorCode.CARD_NUMBER_FORMAT_ERROR.getValue(),
               "Invalid card number.", ErrorCode.VALIDATION.getValue());
       PrintLog.error(error.toString());
       throw error;
@@ -61,7 +61,7 @@ public class MangoCard {
 
   private void validateCardCvx() {
     if (!isFieldValid(cvx, CARD_CVV_REGEX)) {
-      MangoError error = new MangoError(ErrorCode.CVV_FORMAT_ERROR.getValue(),
+      MangoException error = new MangoException(ErrorCode.CVV_FORMAT_ERROR.getValue(),
               "Invalid card cvv.", ErrorCode.VALIDATION.getValue());
       PrintLog.error(error.toString());
       throw error;
