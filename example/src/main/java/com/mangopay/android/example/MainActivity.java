@@ -11,7 +11,7 @@ import com.mangopay.android.sdk.MangoPay;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.MangoCard;
 import com.mangopay.android.sdk.model.MangoSettings;
-import com.mangopay.android.sdk.model.exception.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.JsonUtil;
 
 import org.json.JSONException;
@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
                 Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
               }
 
-              @Override public void failure(MangoError error) {
+              @Override public void failure(MangoException error) {
                 Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
               }
             });

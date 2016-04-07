@@ -8,10 +8,12 @@ public class MainThreadImpl implements MainThread {
   private Handler mHandler;
 
   public MainThreadImpl(Context context) {
-    this.mHandler = new Handler(context.getMainLooper());
+    if (context != null)
+      this.mHandler = new Handler(context.getMainLooper());
   }
 
   @Override public void post(Runnable runnable) {
-    mHandler.post(runnable);
+    if (mHandler != null)
+      mHandler.post(runnable);
   }
 }

@@ -31,7 +31,7 @@ public class MangoPayBuilder {
   private String cvx;
 
   public MangoPayBuilder(Context context) {
-    this.context = context.getApplicationContext();
+    this.context = context;
   }
 
   /**
@@ -215,7 +215,7 @@ public class MangoPayBuilder {
   public MangoPay build() {
     PrintLog.debug("MangoPay SDK initialised");
     return new MangoPay(context, baseURL, clientId, cardPreregistrationId, cardRegistrationURL,
-            preregistrationData, accessKey, cvx, cardNumber, expirationDate);
+            preregistrationData, accessKey, cvx, cardNumber, expirationDate, callback);
   }
 
 }

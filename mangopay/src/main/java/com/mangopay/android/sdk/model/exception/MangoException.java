@@ -5,23 +5,23 @@ import com.mangopay.android.sdk.model.ErrorCode;
 /**
  * Possible error returned from the mangoPay servers
  */
-public class MangoError extends RuntimeException {
+public class MangoException extends RuntimeException {
 
   private String id;
   private String type;
   private long timestamp;
 
-  public MangoError(Throwable throwable) {
+  public MangoException(Throwable throwable) {
     super(throwable);
     this.id = ErrorCode.SDK_ERROR.getValue();
     this.timestamp = System.currentTimeMillis();
   }
 
-  public MangoError(String id, String message) {
+  public MangoException(String id, String message) {
     this(id, message, null);
   }
 
-  public MangoError(String id, String message, String type) {
+  public MangoException(String id, String message, String type) {
     super(message);
     this.id = id;
     this.type = type;
@@ -56,7 +56,7 @@ public class MangoError extends RuntimeException {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    MangoError error = (MangoError) o;
+    MangoException error = (MangoException) o;
 
     return !(id != null ? !id.equals(error.id) : error.id != null);
 
