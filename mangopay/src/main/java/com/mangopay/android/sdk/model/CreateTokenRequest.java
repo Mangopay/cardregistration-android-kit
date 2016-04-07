@@ -20,4 +20,25 @@ public class CreateTokenRequest extends RequestObject {
     this.cardExpirationDate = cardExpirationDate;
     this.cardCvx = cardCvx;
   }
+
+  public String getData() {
+    return data;
+  }
+
+  public String getAccessKeyRef() {
+    return accessKeyRef;
+  }
+
+  public String getCardNumber() {
+    return cardNumber;
+  }
+
+  public String getCardExpirationDate() {
+    return cardExpirationDate;
+  }
+
+  public String getCardCvx() {
+    return cardCvx;
+  }
+
 }

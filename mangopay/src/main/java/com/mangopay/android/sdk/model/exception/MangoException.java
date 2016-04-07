@@ -1,28 +1,31 @@
-package com.mangopay.android.sdk.model;
+package com.mangopay.android.sdk.model.exception;
 
-import java.util.Date;
+import com.mangopay.android.sdk.model.ErrorCode;
 
 /**
  * Possible error returned from the mangoPay servers
  */
-public class MangoError {
-  private String id;
-  private String message;
-  private String type;
-  private long date;
+public class MangoException extends RuntimeException {
 
-  public MangoError() {
+  private String id;
+  private String type;
+  private long timestamp;
+
+  public MangoException(Throwable throwable) {
+    super(throwable);
+    this.id = ErrorCode.SDK_ERROR.getValue();
+    this.timestamp = System.currentTimeMillis();
   }
 
-  public MangoError(String id, String message) {
+  public MangoException(String id, String message) {
     this(id, message, null);
   }
 
-  public MangoError(String id, String message, String type) {
+  public MangoException(String id, String message, String type) {
+    super(message);
     this.id = id;
-    this.message = message;
     this.type = type;
-    this.date = new Date().getTime();
+    this.timestamp = System.currentTimeMillis();
   }
 
   public String getId() {
@@ -33,14 +36,6 @@ public class MangoError {
     this.id = id;
   }
 
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
   public String getType() {
     return type;
   }
@@ -49,19 +44,19 @@ public class MangoError {
     this.type = type;
   }
 
-  public long getDate() {
-    return date;
+  public long getTimestamp() {
+    return timestamp;
   }
 
-  public void setDate(long date) {
-    this.date = date;
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
   }
 
   @Override public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    MangoError error = (MangoError) o;
+    MangoException error = (MangoException) o;
 
     return !(id != null ? !id.equals(error.id) : error.id != null);
 
@@ -74,9 +69,9 @@ public class MangoError {
   @Override public String toString() {
     return "MangoError{" +
             "id='" + id + '\'' +
-            ", message='" + message + '\'' +
+            ", message='" + getMessage() + '\'' +
             ", type='" + type + '\'' +
-            ", date=" + date +
+            ", timestamp=" + timestamp +
             '}';
   }
 }

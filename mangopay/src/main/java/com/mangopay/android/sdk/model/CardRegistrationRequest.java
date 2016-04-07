@@ -13,4 +13,13 @@ public class CardRegistrationRequest extends RequestObject {
     Id = id;
     RegistrationData = registrationData;
   }
+
+  public String getId() {
+    return Id;
+  }
+
+  public String getRegistrationData() {
+    return RegistrationData;
+  }
+
 }

@@ -1,12 +1,12 @@
 package com.mangopay.android.sdk.domain.api;
 
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 
 public interface GetTokenInteractor {
   interface Callback {
     void onGetTokenSuccess(String response);
 
-    void onGetTokenError(MangoError error);
+    void onGetTokenError(MangoException error);
   }
 
   void execute(Callback callback, String cardRegistrationURL, String preregistrationData,

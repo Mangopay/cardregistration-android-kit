@@ -8,7 +8,7 @@ import com.mangopay.android.sdk.executor.Executor;
 import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.model.CreateTokenRequest;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 
 /**
  * Get Token request implementation
@@ -52,7 +52,7 @@ public class GetTokenInteractorImpl extends BaseInteractorImpl<CardService>
         notifySuccess(response);
       }
 
-      @Override public void failure(MangoError error) {
+      @Override public void failure(MangoException error) {
         notifyError(error);
       }
     };
@@ -68,7 +68,7 @@ public class GetTokenInteractorImpl extends BaseInteractorImpl<CardService>
     });
   }
 
-  private void notifyError(final MangoError message) {
+  private void notifyError(final MangoException message) {
     mMainThread.post(new Runnable() {
       @Override public void run() {
         mCallback.onGetTokenError(message);

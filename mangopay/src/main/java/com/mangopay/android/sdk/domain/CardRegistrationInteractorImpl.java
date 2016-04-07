@@ -9,7 +9,7 @@ import com.mangopay.android.sdk.executor.Interactor;
 import com.mangopay.android.sdk.executor.MainThread;
 import com.mangopay.android.sdk.model.CardRegistration;
 import com.mangopay.android.sdk.model.CardRegistrationRequest;
-import com.mangopay.android.sdk.model.MangoError;
+import com.mangopay.android.sdk.model.exception.MangoException;
 import com.mangopay.android.sdk.util.JsonUtil;
 
 /**
@@ -51,7 +51,7 @@ public class CardRegistrationInteractorImpl extends BaseInteractorImpl<CardServi
           notifySuccess(cardRegistration);
       }
 
-      @Override public void failure(MangoError error) {
+      @Override public void failure(MangoException error) {
         notifyError(error);
       }
     };
@@ -67,7 +67,7 @@ public class CardRegistrationInteractorImpl extends BaseInteractorImpl<CardServi
     });
   }
 
-  private void notifyError(final MangoError message) {
+  private void notifyError(final MangoException message) {
     mMainThread.post(new Runnable() {
       @Override public void run() {
         mCallback.onCardRegistrationError(message);

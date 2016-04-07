@@ -1,6 +1,7 @@
 package com.mangopay.android.sdk.model;
 
 import com.mangopay.android.sdk.domain.service.ServiceCallback;
+import com.mangopay.android.sdk.model.exception.MangoException;
 
 import java.lang.reflect.Field;
 import java.util.AbstractMap;
@@ -22,7 +23,8 @@ public class RequestObject {
         String value = (String) field.get(this);
         params.add(new AbstractMap.SimpleEntry<>(field.getName(), value));
       } catch (IllegalAccessException e) {
-        callback.failure(new MangoError(ErrorCode.SDK_ERROR.getValue(), e.getMessage()));
+        if (callback != null)
+          callback.failure(new MangoException(e));
       }
     }
     return params;
