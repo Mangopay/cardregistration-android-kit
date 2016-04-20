@@ -24,13 +24,9 @@ public class MangoSettingsTest {
   public void shouldBeValidatedOk() {
     MangoSettings settings = new MangoSettings(BASE_URL, CLIENT_ID,
             CARD_PRE_REG_ID, CARD_REG_URL, PRE_REG_DATA, ACCESS_KEY);
-    try {
-      settings.validate();
-    } catch (MangoException e) {
-      assertNotNull(e);
-      assertEquals(ErrorCode.MISSING_FIELD_ERROR.getValue(), e.getId());
-      assertEquals(ErrorCode.VALIDATION.getValue(), e.getType());
-    }
+
+    settings.validate();
+
     assertNotNull(settings);
     assertEquals(BASE_URL, settings.getBaseURL());
     assertEquals(CLIENT_ID, settings.getClientId());

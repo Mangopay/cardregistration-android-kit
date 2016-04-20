@@ -20,12 +20,9 @@ public class MangoCardTest {
   @Test
   public void shouldBeValidatedOk() {
     MangoCard card = new MangoCard(CARD_NUMBER, CARD_EXPIRATION_DATE, CARD_CVX);
-    try {
-      card.validate();
-    } catch (MangoException e) {
-      assertNotNull(e);
-      assertEquals(ErrorCode.VALIDATION.getValue(), e.getType());
-    }
+
+    card.validate();
+
     assertNotNull(card);
     assertEquals(CARD_NUMBER, card.getCardNumber());
     assertEquals(CARD_EXPIRATION_DATE, card.getExpirationDate());
