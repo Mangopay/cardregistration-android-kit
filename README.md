@@ -1,6 +1,6 @@
-# mangopay-android #
+# mangopay android kit #
 
-mangopay-android makes it easy to create a card registration object based on your credit card info.
+The mangopay card-registration-library makes it easy to create a card registration object based on your credit card info.
 
 ##Installation##
 ### Android Studio (or Gradle) ###
@@ -9,7 +9,7 @@ No need to clone the repository or download any files -- just add this line to y
 
 
 ```groovy
-compile 'TODO'
+compile 'com.mangopay.android.sdk:card-registration-library:1.0.0'
 ```
 
 
@@ -52,7 +52,7 @@ mangopay.registerCard(mCard, new Callback() {
    });
 ```
 
-* Fluent API using the Builder pattern.
+* Or the fluent API using the Builder pattern.
 
 ```java 
 MangoPayBuilder builder = new MangoPayBuilder(this); // android context
