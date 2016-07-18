@@ -111,7 +111,9 @@ public class MainActivity extends Activity {
                     .preregistrationData(preregistrationData)
                     .cardPreregistrationId(cardPreregistrationId)
                     .cardNumber("3569990000000157")
-                    .cardExpirationDate("0920")
+                     //.cardExpirationDate("0920")
+                    .cardExpirationYear(2017)
+                    .cardExpirationMonth(2)
                     .cardCvx("123")
                     .logLevel(LogLevel.FULL)
                     .callback(new Callback() {
@@ -119,7 +121,7 @@ public class MainActivity extends Activity {
                         Log.d(MainActivity.class.getSimpleName(), cardRegistration.toString());
                       }
 
-                      @Override public void failure(MangoError error) {
+                      @Override public void failure(MangoException error) {
                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                       }
                     }).start();

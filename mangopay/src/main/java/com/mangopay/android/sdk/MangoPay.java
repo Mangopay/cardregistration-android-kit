@@ -50,12 +50,18 @@ public class MangoPay {
     registerCard(null, null);
   }
 
+  public void registerCard(Callback callback) {
+    registerCard(null, callback);
+  }
+
   public void registerCard(MangoCard card, Callback callback) {
-    PrintLog.debug("MangoPay SDK register card started");
-    if (mCallback == null)
+    PrintLog.debug("MangoPay SDK register card started ");
+    if (callback != null) {
       this.mCallback = callback;
-    if (mCard == null)
-      mCard = card;
+    }
+    if (card != null && !card.equals(mCard)) {
+      this.mCard = card;
+    }
 
     GetTokenInteractor.Callback serviceCallback = new GetTokenInteractor.Callback() {
       @Override public void onGetTokenSuccess(String response) {
@@ -71,6 +77,9 @@ public class MangoPay {
     try {
       mSettings.validate();
       mCard.validate();
+
+      PrintLog.debug(mSettings.toString());
+      PrintLog.debug(mCard.toString());
 
       getTokenInteractor.execute(serviceCallback, mSettings.getCardRegistrationURL(),
               mSettings.getPreregistrationData(), mSettings.getAccessKey(),
