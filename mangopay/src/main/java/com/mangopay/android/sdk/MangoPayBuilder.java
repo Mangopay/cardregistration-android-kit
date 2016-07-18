@@ -3,7 +3,6 @@ package com.mangopay.android.sdk;
 import android.content.Context;
 
 import com.mangopay.android.sdk.model.LogLevel;
-import com.mangopay.android.sdk.model.MangoCard;
 import com.mangopay.android.sdk.util.PrintLog;
 
 import java.util.Calendar;
@@ -207,9 +206,18 @@ public class MangoPayBuilder {
     return this;
   }
 
+  /**
+   * Starts the card registration process
+   */
   public void start() {
-    MangoCard mCard = new MangoCard(cardNumber, expirationDate, cvx);
-    build().registerCard(mCard, callback);
+    build().registerCard(callback);
+    resetBuilderCardInfo();
+  }
+
+  private void resetBuilderCardInfo() {
+    this.cardNumber= null;
+    this.expirationDate= null;
+    this.cvx= null;
   }
 
   public MangoPay build() {

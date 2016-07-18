@@ -69,4 +69,16 @@ public class MangoSettings {
       throw new MangoException(e);
     }
   }
+
+  @Override
+  public String toString() {
+    return "MangoSettings{" +
+            "baseURL='" + baseURL + '\'' +
+            ", clientId='" + clientId + '\'' +
+            ", cardPreregistrationId='" + cardPreregistrationId + '\'' +
+            ", cardRegistrationURL='" + cardRegistrationURL + '\'' +
+            ", preregistrationData='" + preregistrationData + '\'' +
+            ", accessKey='" + accessKey + '\'' +
+            '}';
+  }
 }
