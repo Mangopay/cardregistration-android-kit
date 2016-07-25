@@ -71,4 +71,35 @@ public class MangoCard {
   private boolean isFieldValid(String field, String regex) {
     return field != null && field.matches(regex);
   }
+
+  @Override
+  public String toString() {
+    return "MangoCard{" +
+            "cardNumber='" + cardNumber + '\'' +
+            ", expirationDate='" + expirationDate + '\'' +
+            ", cvx='" + cvx + '\'' +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    MangoCard mangoCard = (MangoCard) o;
+
+    if (cardNumber != null ? !cardNumber.equals(mangoCard.cardNumber) : mangoCard.cardNumber != null)
+      return false;
+    if (expirationDate != null ? !expirationDate.equals(mangoCard.expirationDate) : mangoCard.expirationDate != null)
+      return false;
+    return cvx != null ? cvx.equals(mangoCard.cvx) : mangoCard.cvx == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = cardNumber != null ? cardNumber.hashCode() : 0;
+    result = 31 * result + (expirationDate != null ? expirationDate.hashCode() : 0);
+    result = 31 * result + (cvx != null ? cvx.hashCode() : 0);
+    return result;
+  }
 }
