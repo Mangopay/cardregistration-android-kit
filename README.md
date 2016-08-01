@@ -9,7 +9,7 @@ No need to clone the repository or download any files -- just add this line to y
 
 
 ```groovy
-compile 'com.mangopay.android.sdk:card-registration-library:1.0.0'
+compile 'com.mangopay.android.sdk:card-registration-library:1.0.1'
 ```
 
 ### Eclipse
