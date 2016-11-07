@@ -1,4 +1,4 @@
-# MANGOPAY Android card registration kit
+# MANGOPAY Android card registration kit [![Build Status](https://travis-ci.org/Mangopay/cardregistration-android-kit.svg?branch=master)](https://travis-ci.org/Mangopay/cardregistration-android-kit)
 
 The mangopay card registration library makes it easy to create a card registration object based on your credit card info.
 
