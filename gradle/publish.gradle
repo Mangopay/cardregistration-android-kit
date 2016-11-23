@@ -3,7 +3,7 @@ apply plugin: 'io.codearte.nexus-staging'
 
 modifyPom {
     project {
-        name 'mangopay2-java-sdk'
+        name 'cardregistration-android-kit'
         description 'Mangopay Card Registration Kit for Android'
         packaging 'jar'
         url 'https://github.com/Mangopay/cardregistration-android-kit'
@@ -35,7 +35,7 @@ modifyPom {
 }
 
 extraArchive {
-    sources = true
+    sources = false
     tests = true
     javadoc = true
 }
