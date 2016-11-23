@@ -14,7 +14,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Mangopay/cardregistration-android-kit" ] && [ "$TRA
     echo 'Completed publish!'
     ./gradlew closeAndPromoteRepository
   else
-    echo 'Publish failed.'
+    echo 'Publish failed!'
   fi
 
 fi
