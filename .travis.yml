@@ -15,4 +15,8 @@ android:
     - extra-android-support
     - extra-android-m2repository
 
-script: ./gradlew testDebugUnitTest
+before_install:
+- chmod +x .utility/initiate-publish.sh
+- openssl aes-256-cbc -K $encrypted_ca35921423ab_key -iv $encrypted_ca35921423ab_iv -in .utility/signingkey.gpg.enc -out .utility/signingkey.gpg -d
+
+script: ./gradlew testDebugUnitTest -x test
