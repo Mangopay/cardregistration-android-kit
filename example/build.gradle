@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keyStorePropertiesFile = file("keystore/keystore.props")
+def keyStoreProperties = new Properties()
+keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
 android {
     compileSdkVersion 30
 
@@ -10,12 +14,25 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file(keyStoreProperties["STORE_FILE"])
+            storePassword keyStoreProperties["STORE_PASSWORD"]
+            keyAlias keyStoreProperties["KEY_ALIAS"]
+            keyPassword keyStoreProperties["KEY_PASSWORD"]
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {

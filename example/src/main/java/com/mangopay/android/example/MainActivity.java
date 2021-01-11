@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
+                    //Put the address for your server
                     String url = "http://localhost:3000/cardRegistrations/kit";
 
                     URL obj = new URL(url);

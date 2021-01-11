@@ -16,4 +16,4 @@
 #   public *;
 #}
 
--keep class com.mangopay.android.sdk.* { *; }
+-keep class com.mangopay.android.sdk.** { *; }
