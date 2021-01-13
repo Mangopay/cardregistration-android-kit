@@ -20,9 +20,11 @@ android:
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
     - 'intel-android-extra-license.+'
 
 before_install:
   - chmod +x gradlew
+  - yes | sdkmanager "platforms;android-30"
 
 script: ./gradlew test
