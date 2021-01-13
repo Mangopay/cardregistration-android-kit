@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-def keyStorePropertiesFile = file("keystore/keystore.props")
-def keyStoreProperties = new Properties()
-keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
-
 android {
     compileSdkVersion 30
 
@@ -15,21 +11,11 @@ android {
         versionName "1.0"
     }
 
-    signingConfigs {
-        release {
-            storeFile file(keyStoreProperties["STORE_FILE"])
-            storePassword keyStoreProperties["STORE_PASSWORD"]
-            keyAlias keyStoreProperties["KEY_ALIAS"]
-            keyPassword keyStoreProperties["KEY_PASSWORD"]
-        }
-    }
-
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -38,7 +24,7 @@ android {
 dependencies {
     implementation project(":mangopay")
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
 }

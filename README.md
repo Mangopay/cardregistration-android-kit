@@ -112,4 +112,4 @@ builder.baseURL(baseURL)   // card pre-registration baseUrl
 
 ### Code obfuscation
 
-Don't forget to add -keep class com.mangopay.android.sdk.* { *; } to your proguard-rules.pro
+Don't forget to add `-keep class com.mangopay.android.sdk.* { *; }` to your proguard-rules.pro
