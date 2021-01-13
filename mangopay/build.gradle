@@ -1,26 +1,27 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0.0"
+        targetSdkVersion 30
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
     // Required -- JUnit 4 framework
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     // Optional -- Mockito framework
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.mockito:mockito-core:2.23.0'
 }

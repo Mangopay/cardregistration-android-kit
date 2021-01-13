@@ -1,4 +1,4 @@
-# MANGOPAY Android card registration kit
+# MANGOPAY Android card registration kit [![Build Status](https://travis-ci.org/Mangopay/cardregistration-android-kit.svg?branch=master)](https://travis-ci.org/Mangopay/cardregistration-android-kit)
 
 The mangopay card registration library makes it easy to create a card registration object based on your credit card info.
 
@@ -9,7 +9,7 @@ No need to clone the repository or download any files -- just add this line to y
 
 
 ```groovy
-compile 'com.mangopay.android.sdk:card-registration-library:1.0.1'
+implementation 'com.mangopay.android.sdk:card-registration-library:1.0.2'
 ```
 
 ### Eclipse
@@ -109,3 +109,7 @@ builder.baseURL(baseURL)   // card pre-registration baseUrl
 .logLevel(LogLevel.NONE|LogLevel.FULL)
 
 ```
+
+### Code obfuscation
+
+Don't forget to add `-keep class com.mangopay.android.sdk.* { *; }` to your proguard-rules.pro
