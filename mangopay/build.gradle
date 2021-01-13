@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 10
@@ -22,5 +23,5 @@ dependencies {
     // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.13.1'
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.mockito:mockito-core:2.23.0'
 }
