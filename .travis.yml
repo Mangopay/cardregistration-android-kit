@@ -5,6 +5,7 @@ sudo: false
 android:
   components:
     # Android SDK Tools
+    - tools
     - platform-tools
     - tools
     # The BuildTools version used by your project
@@ -15,4 +16,7 @@ android:
     - extra-android-support
     - extra-android-m2repository
 
-script: ./gradlew testDebugUnitTest
+before_install:
+  - chmod +x gradlew
+
+script: ./gradlew test
