@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 /**
  * Simple service implementation
@@ -30,6 +32,9 @@ public class CardServiceImpl implements CardService {
     try {
       URL obj = new URL(mURL);
       HttpsURLConnection connection = (HttpsURLConnection) obj.openConnection();
+
+      connection.setConnectTimeout((int) SECONDS.toMillis(30));
+      connection.setReadTimeout((int) SECONDS.toMillis(30));
 
       connection.setRequestMethod("POST");
       connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");

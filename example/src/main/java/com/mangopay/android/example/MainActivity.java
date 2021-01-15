@@ -27,6 +27,8 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -47,10 +49,13 @@ public class MainActivity extends Activity {
             protected String doInBackground(Void... voids) {
                 try {
                     //Put the address for your server
-                    String url = "http://localhost:3000/cardRegistrations/kit";
+                    String url = "http://10.0.2.2:3000/cardRegistrations/kit";
 
                     URL obj = new URL(url);
                     HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+
+                    connection.setConnectTimeout((int) SECONDS.toMillis(30));
+                    connection.setReadTimeout((int) SECONDS.toMillis(30));
 
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Accept", "application/json");
