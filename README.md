@@ -46,7 +46,7 @@ implementation 'com.mangopay.android.sdk:card-registration-library:1.0.3@aar'
 
 ### Important:
 * Because the MANGOPAY Passphrase cannot be set in the application due to obviously security reasons, this requires an own server instance which has this sensitive information kept private. Using this library you are able to tokenize a card and send it to your server, and then you are able to charge the customer. The flow is described in [this diagram](https://docs.mangopay.com/endpoints/v2.01/payins#e285_the-card-direct-payin-object).
-* The code examples below refer to the [demo app](/Mangopay/cardregistration-android-kit/tree/master/example) included in this repo - you can either use this or just create your own controller if you prefer
+* The code examples below refer to the [demo app](https://github.com/Mangopay/cardregistration-android-kit/tree/master/example) included in this repo - you can either use this or just create your own controller if you prefer
 
 ### Update your webapp
 You should already have a webapp (the service on your server that communicates with your Android app) and you need to add this new card registration functionality - this includes the API call to MANGOPAY ([more info](https://docs.mangopay.com/api-references/card-registration/)). You will then provide the Android kit with the `url` to access this functionality ([configured here](https://github.com/Mangopay/cardregistration-android-kit/blob/master/example/src/main/java/com/mangopay/android/example/MainActivity.java#L45)). The `url` should return a JSON response (which has the information obtained from the MANGOPAY API) as follows:
