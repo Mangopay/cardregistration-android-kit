@@ -2,8 +2,9 @@
 
 The mangopay card registration library makes it easy to create a card registration object based on your credit card info.
 
-##Installation
-###Android Studio (or Gradle)
+## Installation
+
+### Android Studio (or Gradle)
 
 No need to clone the repository or download any files -- just add this line to your app's *build.gradle* inside the dependencies section:
 
