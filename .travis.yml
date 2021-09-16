@@ -8,12 +8,19 @@ android:
     - platform-tools
     - tools
     # The BuildTools version used by your project
-    - build-tools-23.0.3
+    - build-tools-29.0.2
     # The SDK version used to compile your project
-    - android-23
+    - android-30
     # Additional components
     - extra-android-support
     - extra-android-m2repository
+    - extra-google-m2repository
+    - extra-google-google_play_services
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+    - 'intel-android-extra-license.+'
 
 before_install:
 - chmod +x .utility/initiate-publish.sh
