@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 /**
  * Simple service implementation
@@ -30,6 +32,9 @@ public class CardServiceImpl implements CardService {
     try {
       URL obj = new URL(mURL);
       HttpsURLConnection connection = (HttpsURLConnection) obj.openConnection();
+
+      connection.setConnectTimeout((int) SECONDS.toMillis(30));
+      connection.setReadTimeout((int) SECONDS.toMillis(30));
 
       connection.setRequestMethod("POST");
       connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
@@ -49,22 +54,22 @@ public class CardServiceImpl implements CardService {
       connection.connect();
 
       int responseCode = connection.getResponseCode();
-      String response = "";
+      StringBuilder response = new StringBuilder();
       if (responseCode == HttpsURLConnection.HTTP_OK) {
         String line;
         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         while ((line = br.readLine()) != null) {
-          response += line;
+          response.append(line);
         }
-        callback.success(response);
+        callback.success(response.toString());
       } else {
         String line;
         BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
         while ((line = br.readLine()) != null) {
-          response += line;
+          response.append(line);
         }
 
-        MangoException error = JsonUtil.getMangoError(callback, response);
+        MangoException error = JsonUtil.getMangoError(callback, response.toString());
         if (error != null) {
           if (error.getMessage() == null) {
             error = new MangoException(ErrorCode.SERVER_ERROR.getValue(),
