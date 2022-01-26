@@ -50,7 +50,7 @@ publishing {
                 version '2.17.0'
 
                 from(components.java)
-                artifact sourceJar
+                artifact sourcesJar
                 artifact javadocJar
 
                 name 'cardregistration-android-kit'
