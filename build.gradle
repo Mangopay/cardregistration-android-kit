@@ -51,7 +51,6 @@ publishing {
 
                 from(components.java)
                 artifact sourcesJar
-                artifact javadocJar
 
                 name 'cardregistration-android-kit'
                 description 'Mangopay Card Registration Kit for Android'
