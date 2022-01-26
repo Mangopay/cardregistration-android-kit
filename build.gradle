@@ -28,7 +28,7 @@ repositories {
 apply from: 'gradle/publish.gradle'
 
 group = 'com.mangopay'
-version = '1.0.3'
+version = '1.0.4'
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
