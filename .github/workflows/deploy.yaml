@@ -33,14 +33,6 @@ jobs:
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Install Java
-        run: |
-          sudo apt install jessie-backports openjdk-8-jdk
-          export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-          echo $JAVA_HOME
-          export PATH=$PATH:$JAVA_HOME/bin
-          echo $PATH
-          java -version
       - name: Give permissions to file
         run: chmod +x .utility/initiate-publish.sh
       - name: Publish
