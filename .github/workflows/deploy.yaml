@@ -33,7 +33,7 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
       - name: Export GPG key
-        run: gpg --pinentry-mode=loopback --passphrase ${{ secrets.PASSPHRASE }} --keyring secring.gpg --export-secret-key 117407B30B32E5E1380EE2FC6E7E86304C9F8BAF > signingkey.gpg
+        run: gpg --pinentry-mode=loopback --passphrase ${{ secrets.PASSPHRASE }} --export-secret-key 117407B30B32E5E1380EE2FC6E7E86304C9F8BAF > signingkey.gpg
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
