@@ -2,4 +2,4 @@
 
 echo -e "Starting publish to Sonatype...\n"
 
-./gradlew publish -PnexusUsername="${MAVEN_USERNAME}" -PnexusPassword="${MAVEN_PASSWORD}" -Psigning.keyId=93605ADB -Psigning.password="${SIGNING_PASSWORD}" -Psigning.secretKeyRingFile=signingkey.gpg
+./gradlew publish -PnexusUsername="${MAVEN_USERNAME}" -PnexusPassword="${MAVEN_PASSWORD}" -Psigning.keyId=8F2AE56A -Psigning.password="${SIGNING_PASSWORD}" -Psigning.secretKeyRingFile=.gnupg/secring.gpg
