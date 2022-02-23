@@ -10,7 +10,7 @@ No need to clone the repository or download any files -- just add this line to y
 
 
 ```groovy
-implementation 'com.mangopay.android.sdk:card-registration-library:1.0.4'
+implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1'
 ```
 
 As an alternative you can also download the latest .aar file from the following [![Download link](https://api.bintray.com/packages/mangopay/cardregistration-android-kit/cardregistration-android-kit/images/download.svg)](https://bintray.com/mangopay/cardregistration-android-kit/cardregistration-android-kit/_latestVersion)
@@ -32,8 +32,8 @@ And the final step is to use one of the following lines in your `app/build.gradl
 
 ```groovy
 implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-implementation(name:'card-registration-library-1.0.4', ext:'aar')
-implementation 'com.mangopay.android.sdk:card-registration-library:1.0.4@aar'
+implementation(name:'card-registration-library-1.2.1', ext:'aar')
+implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1@aar'
 ```
 
 ### Eclipse
