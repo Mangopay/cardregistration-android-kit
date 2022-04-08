@@ -13,21 +13,6 @@ No need to clone the repository or download any files -- just add this line to y
 implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1'
 ```
 
-As an alternative you can also download the latest .aar file from the following [![Download link](https://api.bintray.com/packages/mangopay/cardregistration-android-kit/cardregistration-android-kit/images/download.svg)](https://bintray.com/mangopay/cardregistration-android-kit/cardregistration-android-kit/_latestVersion)
-
-After that copy the `.aar` file in your `app/libs` folder. Also please make sure that you have `flatDir` in your repositories as shown before.
-
-```groovy
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        flatDir {
-            dirs 'libs'
-        }
-    }
-```
-
 And the final step is to use one of the following lines in your `app/build.gradle` dependencies:
 
 ```groovy
@@ -38,10 +23,10 @@ implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1@aar'
 
 ### Eclipse
 
-1. Clone the repository.
-2. Be sure you've installed the Android SDK with API Level 10+. This is the only requirement for development. Our bindings require the API Level 10 as a minimum at runtime which would work on any modern version of Android.
-3. Import the *mangopay* folder into Eclipse (use "Existing Projects into Workspace", not "Existing Android Code").
-4. In your project settings, add the *mangopay* project under the "Libraries" section of the "Android" category.
+  1. Clone the repository.
+  2. Be sure you've installed the Android SDK with API Level 10+. This is the only requirement for development. Our bindings require the API Level 10 as a minimum at runtime which would work on any modern version of Android.
+  3. Import the *mangopay* folder into Eclipse (use "Existing Projects into Workspace", not "Existing Android Code").
+  4. In your project settings, add the *mangopay* project under the "Libraries" section of the "Android" category.
 
 ## Usage
 
