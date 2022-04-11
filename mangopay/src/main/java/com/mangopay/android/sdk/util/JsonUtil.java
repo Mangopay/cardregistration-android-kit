@@ -25,7 +25,7 @@ public final class JsonUtil {
 
       MangoException error = new MangoException(getValue(json, "Id"), getValue(json, "Message"), getValue(json, "Type"));
       if (json.has("Date") && !json.isNull("Date")) {
-        error.setTimestamp((Long) json.get("Date"));
+        error.setTimestamp(json.getLong("Date"));
       }
       return error;
     } catch (JSONException e) {
