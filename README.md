@@ -10,15 +10,15 @@ No need to clone the repository or download any files -- just add this line to y
 
 
 ```groovy
-implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1'
+implementation 'com.mangopay.android.sdk:card-registration-library:1.2.2'
 ```
 
 And the final step is to use one of the following lines in your `app/build.gradle` dependencies:
 
 ```groovy
 implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-implementation(name:'card-registration-library-1.2.1', ext:'aar')
-implementation 'com.mangopay.android.sdk:card-registration-library:1.2.1@aar'
+implementation(name:'card-registration-library-1.2.2', ext:'aar')
+implementation 'com.mangopay.android.sdk:card-registration-library:1.2.2@aar'
 ```
 
 ### Eclipse
