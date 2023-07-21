@@ -1,3 +1,13 @@
+# :warning: Deprecated
+
+This SDK is deprecated as of July 21, 2023 and will no longer be maintained or supported.
+
+We recommend upgrading to our new [Vault SDK for Android](https://central.sonatype.com/artifact/com.mangopay.android/vault-sdk) instead. The new SDK provides the same functionality of [card registration flow](https://mangopay.com/docs/endpoints/direct-card-payins#card-registration-object), with Kotlin language support., better performance, and continued support.
+
+For details on upgrading from this SDK to the new Kotlin SDK, please visit our [Vault SDK integration guide](https://mangopay.com/docs/sdk/vault-android).
+
+If you have any other questions around this deprecation, please reach out to our team via the [Hub](https://hub.mangopay.com/)
+
 # MANGOPAY Android card registration kit [![Build Status](https://travis-ci.org/Mangopay/cardregistration-android-kit.svg?branch=master)](https://travis-ci.org/Mangopay/cardregistration-android-kit)
 
 The mangopay card registration library makes it easy to create a card registration object based on your credit card info.
